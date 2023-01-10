@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>PIMS</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+		<!-- Brand -->
+		<a class="navbar-brand" href="#">SMIMS</a>
+
+		<!-- Toggler/collapsibe Button -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- Navbar links -->
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/suppliers}"><font color="orange">Supplier
+							Management</font></a></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/orders}">Order
+						Management</a></li>
+
+				<li class="nav-item"><a class="nav-link" th:href="@{/expenses}">Expenses
+						Management</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<!-- <div class="col-lg-3">
+
+
+		<form th:action="@{/suppliers/searchSuppliers}"
+			th:object="${searchSupplier}" method="POST">
+			 <input type="text" name="fieldName"
+				th:field="*{fieldName}" class="form-control" placeholder="Select" />
+				
+				 <input type="text" name="value"
+				th:field="*{value}" class="form-control" placeholder="Enter value" />
+			<div class="box-footer">
+				<button type="submit" class="btn btn-primary">Save</button>
+			</div>
+		</form>
+
+
+	</div> -->
+
+	<div class="container table-responsive">
+		<br>
+
+
+		<h4 align="center">Suppliers List</h4>
+		<div class="row">
+			<div class="col-lg-3">
+				<a th:href="@{/supplier/new}" class="btn btn-primary btn-sm mb-3">
+					Add Supplier</a> <a th:href="@{/supplier/searchSuppliers}"
+					class="btn btn-primary btn-sm mb-3"> Search Suppliers</a>
+
+			</div>
+
+		</div>
+		<table class="table table-bordered table-condensed table-hover">
+			<thead class="table-dark">
+				<tr>
+					<th>S.No</th>
+					<th>Supplier Name</th>
+					<th>Category</th>
+					<th>Email</th>
+					<th>Mobile</th>
+					<th>Reg Fee</th>
+					<th>Balance Amount</th>
+					<!-- <th>Created On</th>
+					<th>Updated On</th> -->
+					<th>Actions</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="supplier: ${suppliers}">
+					<!-- <td th:text="${supplier.id}"></td> -->
+					<td scope="row" th:text="${supplierStat.index+1}"></td>
+					<td th:text="${supplier.supplierName}"></td>
+					<td th:text="${supplier.supplierCategory}"></td>
+					<td th:text="${supplier.supplierEmailId}"></td>
+					<td th:text="${supplier.supplierContactNo}"></td>
+					<td th:text="${supplier.registrationFee}"></td>
+					<td th:text="${supplier.balanceAmountWithVendor}"></td>
+
+
+					<!-- <td th:text="${supplier.createdDate}"></td>
+					<td th:text="${supplier.updatedDate}"></td> -->
+					<td><a th:href="@{/supplier/edit/{id}(id=${supplier.id})}"
+						class="btn btn-primary">View</a> <a
+						th:href="@{/supplier/{id}(id=${supplier.id})}"
+						class="btn btn-danger">Delete</a> <a
+						th:href="@{/suppliers/{id}/orders(id=${supplier.id})}"
+						class="btn btn-warning">Orders</a></td>
+				</tr>
+			</tbody>
+
+		</table>
+
+	</div>
+</body>
+</html>

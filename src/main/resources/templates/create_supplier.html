@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>PIMS</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+label {
+	color: green;
+}
+</style>
+</head>
+<body>
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+		<!-- Brand -->
+		<a class="navbar-brand" href="#">SMIMS</a>
+
+		<!-- Toggler/collapsibe Button -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- Navbar links -->
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/suppliers}"><font color="orange">Supplier
+							Management</font></a></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/orders}">Order
+						Management</a></li>
+
+				<li class="nav-item"><a class="nav-link" th:href="@{/expenses}">Expenses
+						Management</a></li>
+			</ul>
+		</div>
+	</nav>
+	<br>
+	<br>
+	<div class="container">
+		<h6 class="text-center">
+			<b><font color="blue">Create Supplier </font></b>
+		</h6>
+		<div class="row">
+
+			<div class="container card">
+
+
+				<form th:action="@{/supplier}" th:object="${supplier}" method="POST">
+
+					<h6>
+						<b>Supplier Information</b>
+					</h6>
+					<div class="card-body">
+
+
+						<div class="form-row">
+							<div class="col">
+								<label> Supplier Category: </label> <select required="required"
+									name="supplierCategory" th:field="*{supplierCategory}"
+									class="form-control form-control-sm">
+									<option value="NONE">Select</option>
+									<option value="Jewellery">Jewellery</option>
+									<option value="Clothing">Clothing</option>
+									<option value="Others">Others</option>
+
+								</select>
+							</div>
+
+							<div class="col">
+								<label> Supplier Type: </label> <select name="supplierType"
+									th:field="*{supplierType}" class="form-control form-control-sm">
+									<option value="NONE">Select</option>
+									<option value="Wholesalers">Wholesalers</option>
+									<option value="Manufacturers">Manufacturers</option>
+									<option value="Others">Others</option>
+
+								</select>
+							</div>
+
+						</div>
+						<div class="form-row">
+
+
+							<div class="col">
+								<label> Supplier Name: </label> &nbsp; &nbsp; <input type="text"
+									required="required" name="supplierName"
+									th:field="*{supplierName}" class="form-control form-control-sm"
+									placeholder="Enter Supplier Name" />
+							</div>
+							<div class="col">
+								<label> Supplier GST Number </label> <input type="text"
+									name="supplierGSTNo" th:field="*{supplierGSTNo}"
+									class="form-control form-control-sm"
+									placeholder="Enter Supplier GST Number" />
+							</div>
+
+
+						</div>
+						<div class="form-row">
+							<div class="col">
+								<label> Supplier Address </label> <input type="text"
+									name="supplierAddress" th:field="*{supplierAddress}"
+									class="form-control form-control-sm"
+									placeholder="Enter Supplier Description" />
+							</div>
+						</div>
+					</div>
+					<h6>
+						<b>Communication Details</b>
+					</h6>
+					<div class="card-body">
+
+						<div class="form-row">
+
+							<div class="col">
+								<label> Supplier Email Id</label> <input type="email"
+									name="supplierEmailId" id="InputEmail1"
+									aria-describeby="emailHelp" th:field="*{supplierEmailId}"
+									class="form-control form-control-sm"
+									placeholder="Enter Supplier Email id" />
+							</div>
+
+							<div class="col">
+								<label> Supplier Contact Number </label> <input type="number"
+									required="required" name="supplierContactNo"
+									th:field="*{supplierContactNo}"
+									class="form-control form-control-sm"
+									placeholder="Enter Contact Number" />
+							</div>
+						</div>
+
+						<div class="form-row">
+
+							<div class="col">
+								<label> Supplier Website</label> <input type="text"
+									name="website" th:field="*{website}"
+									class="form-control form-control-sm"
+									placeholder="Enter Supplier Website url" />
+							</div>
+
+							<div class="col">
+								<label> Twitter Id </label> <input type="text" name="twitterId"
+									th:field="*{twitterId}" class="form-control form-control-sm"
+									placeholder="Enter Twitter Id" />
+							</div>
+						</div>
+
+
+
+
+						<div class="form-row">
+
+							<div class="col">
+
+								<label> Instagram Id</label> <input type="text"
+									name="instagramId" th:field="*{instagramId}"
+									class="form-control form-control-sm"
+									placeholder="Enter Instagram Id" />
+							</div>
+
+							<div class="col">
+								<label> Facebook Id </label> <input type="text"
+									name="facebookId" th:field="*{facebookId}"
+									class="form-control form-control-sm"
+									placeholder="Enter Facebook Id" />
+							</div>
+
+						</div>
+
+
+					</div>
+					<h6>
+						<b>Bank Account Information</b>
+					</h6>
+					<div class="card-body">
+
+						<div class="form-row">
+
+							<div class="col">
+								<label> Bank Name</label> <input type="text" name="bankName"
+									th:field="*{bankName}" class="form-control form-control-sm"
+									placeholder="Enter Bank Name" />
+							</div>
+
+
+							<div class="col">
+								<label> IFSC Code</label> <input type="text" name="bankIFSCCode"
+									th:field="*{bankIFSCCode}" class="form-control form-control-sm"
+									placeholder="Enter IFSC Code" />
+							</div>
+
+						</div>
+
+						<div class="form-row">
+
+							<div class="col">
+								<label> AccountHolder Name</label> <input type="text"
+									name="accountHolderName" th:field="*{accountHolderName}"
+									class="form-control form-control-sm"
+									placeholder="Enter AccountHolder Name" />
+							</div>
+
+
+							<div class="col">
+								<label> Account Number </label> <input type="number"
+									name="accountNumber" th:field="*{accountNumber}"
+									class="form-control form-control-sm"
+									placeholder="Enter Account Number" />
+							</div>
+
+						</div>
+					</div>
+
+					<h6>
+						<b>Other Information</b>
+					</h6>
+					<div class="card-body">
+
+						<div class="form-row">
+
+							<div class="col">
+								<label>Source</label> <input type="text" name="source"
+									th:field="*{source}" class="form-control form-control-sm"
+									placeholder="Enter Source" />
+							</div>
+
+
+							<div class="col">
+								<label> Comments</label> <input type="text" name="comments"
+									th:field="*{comments}" class="form-control form-control-sm"
+									placeholder="Enter comments" />
+							</div>
+
+						</div>
+
+						<div class="form-row">
+
+							<div class="col">
+								<label> Other Details</label> <input type="text"
+									name="otherDetails" th:field="*{otherDetails}"
+									class="form-control form-control-sm"
+									placeholder="Enter Any other details" />
+							</div>
+
+						</div>
+					</div>
+
+					<br>
+					<div class="box-footer" align="center">
+						<button type="submit" class="btn btn-primary">Save
+							Supplier Details</button>
+					</div>
+					<br> <br>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
