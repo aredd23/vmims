@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchSupplier {
+public class SearchDto {
 	
 	private String fieldName;
 	private String value;

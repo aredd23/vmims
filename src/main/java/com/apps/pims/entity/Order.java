@@ -33,7 +33,7 @@ public class Order{
 	private Long id;
 	
 	private Long supplierId;
-	
+	private String supplierName;
 	@Column(name = "product_name", nullable = false)
 	private String productName;
 	private String productCategory;
@@ -45,8 +45,9 @@ public class Order{
 	private double shippingCost;
 	private double GSTCharges;
 	private double AddistionalCost; 
-	private int multiplier;
-	
+	private double multiplier;
+	private double totalCost;
+	private String otherDetails;
 	private String  comments;
 	@Transient
 	private MultipartFile poOriginalImage;
@@ -58,6 +59,17 @@ public class Order{
 	private byte[] poImageData;
 	
 	private String poImageName;
+	
+	@Transient
+	private MultipartFile orderReceiptImage;
+	
+	@Transient
+	private String orderReceiptImageBase64;
+	
+	@Lob
+	private byte[] orderReceiptImageData;
+	
+	private String orderReceiptImageName;
 
 	
 	@Temporal(TemporalType.DATE)

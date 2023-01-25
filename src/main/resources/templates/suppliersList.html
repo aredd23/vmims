@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>SIMS</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+	<div th:replace="fragment ::header"></div>
+
+
+	<!-- <div class="col-lg-3">
+
+
+		<form th:action="@{/suppliers/searchSuppliers}"
+			th:object="${searchSupplier}" method="POST">
+			 <input type="text" name="fieldName"
+				th:field="*{fieldName}" class="form-control" placeholder="Select" />
+				
+				 <input type="text" name="value"
+				th:field="*{value}" class="form-control" placeholder="Enter value" />
+			<div class="box-footer">
+				<button type="submit" class="btn btn-primary">Save</button>
+			</div>
+		</form>
+
+
+	</div> -->
+
+	<div class="container table-responsive">
+		<br>
+
+
+		<h4 align="center">
+		 <font color="blue"> All Suppliers - List</font>
+		</h4>
+		<div class="row">
+			<div class="col-lg-3">
+				<a th:href="@{/supplier/new}" class="btn btn-primary btn-sm mb-3">
+					Add Supplier</a> 
+					
+				<!-- 	<a th:href="@{/supplier/searchSuppliers}"
+					class="btn btn-primary btn-sm mb-3"> Search Suppliers</a> -->
+
+			</div>
+
+		</div>
+		<table class="table table-bordered table-condensed table-hover">
+			<thead class="table-dark">
+				<tr>
+					<th>S.No</th>
+					<th>Suplr.No</th>
+					<th>Suplr.Name</th>
+					<th>Category</th>
+					<th>Email</th>
+					<th>Mobile</th>
+					<th>Reg Fee</th>
+					<th>Balance Amount</th>
+					<!-- <th>Created On</th>
+					<th>Updated On</th> -->
+					<th>Actions</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="supplier: ${suppliers}">
+					<!-- <td th:text="${supplier.id}"></td> -->
+					<td scope="row" th:text="${supplierStat.index+1}"></td>
+					<td scope="row" th:text="${supplier.id}"></td>
+					<td th:text="${supplier.supplierName}"></td>
+					<td th:text="${supplier.supplierCategory}"></td>
+					<td th:text="${supplier.supplierEmailId}"></td>
+					<td th:text="${supplier.supplierContactNo}"></td>
+					<td th:text="${supplier.registrationFee}"></td>
+					<td th:text="${supplier.balanceAmountWithVendor}"></td>
+
+					<!-- class="btn btn-primary" -->
+					<!-- <td th:text="${supplier.createdDate}"></td>
+					<td th:text="${supplier.updatedDate}"></td> -->
+					<td><a th:href="@{/supplier/edit/{id}(id=${supplier.id})}"
+						class="fa-regular fa-pen-to-square icon-dark"></a> &nbsp; &nbsp;&nbsp;
+						 <a
+						class="fa-regular fa-trash-can icon-dark btn-delete"
+						th:href="@{/supplier/delete/{id}(id=${supplier.id})}"></a>  &nbsp; &nbsp;&nbsp;
+						 <a
+						th:href="@{/supplier/{id}/orders(id=${supplier.id})}"
+						class="btn btn-warning">Orders</a></td>
+				</tr>
+			</tbody>
+
+		</table>
+		
+		<br>
+
+<div th:if="${totalPages > 1}"></div>
+ <div class="row col-sm-10"> 
+  <div class="col-sm-1 page-item">
+ <div class="col-sm-1 page-item">
+  <a th:if="${currentPage==1}" >Previous</a> &nbsp;&nbsp;
+  <a th:if="${currentPage!=1}" th:href="@{'/supplier/page/'+${currentPage - 1}}">Previous</a>
+  
+  </div>
+  
+  
+  </div>
+  
+  <div class="col-sm-1">
+  <span class="page-item" th:each="i: ${#numbers.sequence(1,totalPages)}">
+  <a th:if="${currentPage!=i}" th:href="@{'/supplier/page/'+${i}}">[[${i}]]</a>
+  <span th:unless="${currentPage!=i}">[[${i}]]</span>
+  </span>
+   
+  </div>
+  <div class="col-sm-1 page-item">
+  <a th:if="${currentPage < totalPages}" th:href="@{'/supplier/page/'+${currentPage + 1}}">Next</a>
+  <span class="page-item" th:unless="${currentPage < totalPages}">Next</span>
+  </div>
+  <div class="col-sm-1">
+  <a th:if="${currentPage < totalPages}" th:href="@{'/supplier/page/'+${totalPages}}">Last</a>
+  <span class="page-item" th:unless="${currentPage < totalPages}">Last</span>
+  </div>
+ </div>
+	</div>
+
+	<div th:replace="fragment ::footer"></div>
+</body>
+</html>
