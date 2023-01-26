@@ -21,11 +21,11 @@ public interface OrderService {
 
 	Page<Order> findOrderBySupplierId(Long id, int pageNo, int pageSize);
 
-	Order getOrderByProductName(String value);
+	List<Order> getOrderByProductName(String value);
 
-	Order getOrderByGGCode(String value);
+	List<Order> getOrderByGGCode(String value);
 
-	Order getOrderByProductNumber(String valueOf);
+	List<Order> getOrderByProductNumber(String valueOf);
 
 	List<Order> findAllOrders() throws IOException;
 }

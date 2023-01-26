@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>SIMS</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+	integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style type="text/css">
+label {
+	color: green;
+}
+</style>
+
+</head>
+<body>
+	<div th:replace="fragment ::header"></div>
+
+	<br>
+	<br>
+	<div class="container">
+		<h5 class="text-center">
+			<b> <font color="blue">User Details</font></b>
+		</h5>
+		<div class="container">
+			<div class="container card">
+
+
+				<form th:action="@{/user/{id} (id=${user.id})}" th:object="${user}"
+					method="POST">
+
+					<div class="card-body">
+
+
+						<div class="col">
+							<label> User Name: </label> &nbsp; &nbsp; <input type="text"
+								required="required" name="username" th:field="*{username}"
+								class="form-control form-control-sm"
+								placeholder="Enter User Name" />
+						</div>
+						<div class="col">
+							<label> Email: </label> &nbsp; &nbsp; <input type="text"
+								required="required" name="email" th:field="*{email}"
+								class="form-control form-control-sm"
+								placeholder="Enter Registration Fee" />
+						</div>
+					</div>
+					<br> <br>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div th:replace="fragment ::footer"></div>
+</body>
+</html>

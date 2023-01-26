@@ -27,7 +27,7 @@ public class HomeController {
 	}
 
 	 @GetMapping({ "/", "/index" })
-	public String homePage(ModelMap model) {
+	public String indexPage(ModelMap model) {
 		log.info("loaded index page ..");
 		
 		List<Supplier> supplierList = supplierService.findAllSuppliers();

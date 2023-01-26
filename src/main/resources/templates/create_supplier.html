@@ -3,20 +3,29 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>SIMS</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script
-	src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script
-	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-	
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
 <style>
 label {
 	color: green;
+}
+select.form-control:not([size]):not([multiple]) {
+	height: calc(3rem + 2px);
 }
 </style>
 </head>
@@ -45,8 +54,8 @@ label {
 								<label> Supplier Category: </label> <select required="required"
 									autofocus="autofocus" name="supplierCategory"
 									th:field="*{supplierCategory}"
-									class="form-control form-control-sm">
-									<option value="NONE" autocapitalize="none">Select</option>
+									class="form-control">
+									<!-- <option value="-1" >Select</option> -->
 									<option value="Jewellery">Jewellery</option>
 									<option value="Clothing">Clothing</option>
 									<option value="Others">Others</option>
@@ -55,9 +64,9 @@ label {
 							</div>
 
 							<div class="col">
-								<label> Supplier Type: </label> <select name="supplierType"
-									th:field="*{supplierType}" class="form-control form-control-sm">
-									<option value="NONE" disabled="disabled">Select</option>
+								<label> Supplier Type: </label> <select name="supplierType"  required="required"
+									th:field="*{supplierType}" class="form-control">
+									<!-- <option value="-1">Select</option> -->
 									<option value="Wholesalers">Wholesalers</option>
 									<option value="Manufacturers">Manufacturers</option>
 									<option value="Others">Others</option>

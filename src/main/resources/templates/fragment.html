@@ -13,8 +13,16 @@
 	integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
 	crossorigin="anonymous"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -33,22 +41,32 @@
 					<div class="collapse navbar-collapse" id="navbarNav">
 						<ul class="navbar-nav">
 
-							<li class="nav-item"><a class="nav-link active" th:href="@{/home}">Home</a></li>
-							<li class="nav-item"><a class="nav-link active" th:href="@{/supplier/suppliersList}">Supplier Management</a></li>
-							<li class="nav-item"><a class="nav-link active" th:href="@{/order/ordersList}">Order Management</a></li>
+							<li class="nav-item"><a class="nav-link active"
+								th:href="@{/home}">Home</a></li>
+							<li class="nav-item"><a class="nav-link active"
+								th:href="@{/supplier/suppliersList}">Supplier Management</a></li>
+							<li class="nav-item"><a class="nav-link active"
+								th:href="@{/order/ordersList}">Order Management</a></li>
 							<!-- <li class="nav-item"><a class="nav-link active" th:href="@{/expenses}">Expenses Management</a></li> -->
 
-							<li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/search}">Search Data</a></li>
-							<li class="nav-item"><a class="nav-link active" th:href="@{/tabs}">Spring MVC Tabs</a></li>
-							<!-- <li class="nav-item"><a class="nav-link active" href="#">REST API</a></li>	 -->	
+							<li class="nav-item"><a class="nav-link active"
+								aria-current="page" th:href="@{/search}">Search Data</a></li>
+							<!-- <li class="nav-item"><a class="nav-link active"
+								th:href="@{/tabs}">Spring MVC Tabs</a></li> -->
+							<!-- <li class="nav-item"><a class="nav-link active" href="#">REST API</a></li>	 -->
 
 						</ul>
-						
+
 
 					</div>
 				</div>
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a class="nav-link active" th:href="@{/logout}"><font color="white">Logout</font></a></li>
+
+					<li class="nav-item"><a th:href="@{/user/{mailId}(mailId=${#httpServletRequest.remoteUser})}" class="btn btn-info btn-lg"> <span class="glyphicon glyphicon-user"></span>
+					</a></li> &nbsp;&nbsp;
+
+					<li class="nav-item"><a class="btn btn-info btn-lg"
+						th:href="@{/user/logout}"><font color="white"><span class="glyphicon glyphicon-log-out"></span> </font></a></li>
 				</ul>
 
 			</nav>
@@ -61,7 +79,8 @@
 
 			<!-- Copyright -->
 			<div class="footer-copyright text-center py-3">
-				&copy; 2023 Copyright: <a href="https://sims.com"><font color="white">SIMS</font> </a>
+				&copy; 2023 Copyright: <a href="https://sims.com"><font
+					color="white">SIMS</font> </a>
 			</div>
 			<!-- Copyright -->
 

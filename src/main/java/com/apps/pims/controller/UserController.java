@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.apps.pims.entity.Supplier;
 import com.apps.pims.entity.User;
@@ -21,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
+@RequestMapping("/user")
 public class UserController {
 	
 	private SupplierService supplierService;
@@ -70,10 +73,35 @@ public class UserController {
 			return "login";
 		}
 	}
+	@PostMapping
+	public String addUser(@ModelAttribute("userdetails") User userdetails, Model model, HttpServletRequest request) {
+		
+		log.info("login method().. request details: "+userdetails);
+		try {
+			User userdetailsRes = userRepository.save(userdetails);
+		
+			log.info("User details from  db:: "+userdetailsRes);
+			
+			model.addAttribute("userdetails", userdetailsRes);
+			
+			model.addAttribute("sccessMessage", "User added successfully.");
+
+			return "user";
+		} catch (Exception e) {
+
+			log.error("{}", e);
+			model.addAttribute("failureMessage", "Unable to add user details. Please try again.");
+			return "user";
+		}
+	}
 	
-	//@GetMapping("/login")
-	public String login( Model model, HttpServletRequest request){
-		return "login";
+	
+	@GetMapping("/{mailId}")
+	public String getUserDetails(@PathVariable String mailId, Model model){
+		
+		User userdetailsRes = userRepository.findByEmail(mailId);
+		model.addAttribute("user", userdetailsRes);
+		return "userDetails";
 		
 	}
 	

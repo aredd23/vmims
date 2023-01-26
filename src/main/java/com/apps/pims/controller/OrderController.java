@@ -125,6 +125,30 @@ public class OrderController {
 		return "edit_order";
 
 	}
+	
+	
+	
+	@GetMapping("/quickView/{id}")
+	public String orderQuickView(@PathVariable Long id, Model model) throws IOException {
+		Order order = orderService.getOrderById(id);
+		Supplier supplier = null;
+		if(order!=null) {
+			supplier=supplierService.getSupplierById(order.getSupplierId());
+		}
+		model.addAttribute("order", order);
+		model.addAttribute("supplier", supplier);
+		
+		String orderReceiptImageBase64 = Base64.getEncoder()
+				.encodeToString(ImageUtils.decompressImage(order.getOrderReceiptImageData()));
+		model.addAttribute("orderReceiptImageBase64", orderReceiptImageBase64);
+		
+		String orderProductImageBase64 = Base64.getEncoder()
+				.encodeToString(ImageUtils.decompressImage(order.getPoImageData()));
+		model.addAttribute("orderProductImageBase64", orderProductImageBase64);
+		
+		return "orderQuickView";
+
+	}
 
 	@PostMapping("/createOrder")
 	public String saveOrder(@ModelAttribute("order") Order order) throws IOException {

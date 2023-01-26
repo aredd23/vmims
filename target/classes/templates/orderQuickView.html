@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta charset="ISO-8859-1">
+<title>Tab Panel</title>
+<!-- JavaScript Bundle with Popper -->
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+	crossorigin="anonymous"></script>
+<!-- CSS only -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+	crossorigin="anonymous">
+
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+	integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style type="text/css">
+select.form-control:not([size]):not([multiple]) {
+	height: calc(3rem + 2px);
+}
+</style>
+</head>
+<body>
+	<div th:replace="fragment ::header"></div>
+
+	<div class="container mt-5">
+		<h5 align="center">
+			<b>Order Details</b>
+		</h5>
+		<ul class="nav nav-tabs mt-5">
+			<li class="nav-item"><a href="#supplier" class="nav-link active"
+				data-bs-toggle="tab">Supplier Details</a></li>
+			<li class="nav-item"><a href="#product" class="nav-link"
+				data-bs-toggle="tab">Product Details</a></li>
+			<li class="nav-item"><a href="#productImages" class="nav-link"
+				data-bs-toggle="tab">Product Images</a></li>
+
+			<li class="nav-item"><a href="#orderReceipts" class="nav-link"
+				data-bs-toggle="tab">Order Receipts</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane fade show active" id="supplier">
+				<br>
+				<h3>Supplier Details</h3>
+				<div class="container">
+					<h6 class="text-center">
+						<b><font color="blue">Add Supplier / Manufacturer </font></b>
+					</h6>
+
+
+					<form th:action="@{/supplier}" th:object="${supplier}"
+						method="POST">
+						<div class="row">
+							<div class="container card">
+								<h6>
+									<b>Supplier Information</b>
+								</h6>
+								<div class="card-body">
+
+
+									<div class="form-row">
+										<div class="col">
+											<label> Supplier Category: </label> <select
+												required="required" autofocus="autofocus"
+												name="supplierCategory" th:field="*{supplierCategory}"
+												class="form-control">
+												<option value="NONE" autocapitalize="none">Select</option>
+												<option value="Jewellery">Jewellery</option>
+												<option value="Clothing">Clothing</option>
+												<option value="Others">Others</option>
+
+											</select>
+										</div>
+
+										<div class="col">
+											<label> Supplier Type: </label> <select name="supplierType"
+												th:field="*{supplierType}" class="form-control">
+												<option value="NONE" autocapitalize="none">Select</option>
+												<option value="Wholesalers">Wholesalers</option>
+												<option value="Manufacturers">Manufacturers</option>
+												<option value="Others">Others</option>
+
+											</select>
+										</div>
+
+
+										<div class="col">
+											<label> Supplier Name: </label> &nbsp; &nbsp; <input
+												type="text" required="required" name="supplierName"
+												th:field="*{supplierName}"
+												class="form-control form-control-sm"
+												placeholder="Enter Supplier Name" />
+										</div>
+										<div class="col">
+											<label> Reg. Fee: </label> &nbsp; &nbsp; <input type="text"
+												required="required" name="registrationFee"
+												th:field="*{registrationFee}"
+												class="form-control form-control-sm"
+												placeholder="Enter Registration Fee" />
+										</div>
+									</div>
+									<br>
+									<div class="form-row">
+										<div class="col">
+											<label> Balance Amount: </label> &nbsp; &nbsp; <input
+												type="text" required="required"
+												name="balanceAmountWithVendor"
+												th:field="*{balanceAmountWithVendor}"
+												class="form-control form-control-sm"
+												placeholder="Enter Balance Amount" />
+										</div>
+										<div class="col">
+											<label> Supplier GST Number </label> <input type="text"
+												name="supplierGSTNo" th:field="*{supplierGSTNo}"
+												class="form-control form-control-sm"
+												placeholder="Enter Supplier GST Number" />
+										</div>
+
+
+										<div class="col">
+											<label> Supplier Address </label> <input type="text"
+												name="supplierAddress" th:field="*{supplierAddress}"
+												class="form-control form-control-sm"
+												placeholder="Enter Supplier Description" />
+										</div>
+									</div>
+								</div>
+								<h6>
+									<b>Communication Details</b>
+								</h6>
+								<div class="card-body">
+
+									<div class="form-row">
+
+										<div class="col">
+											<label> Supplier Email Id</label> <input type="email"
+												name="supplierEmailId" id="InputEmail1"
+												aria-describeby="emailHelp" th:field="*{supplierEmailId}"
+												class="form-control form-control-sm"
+												placeholder="Enter Supplier Email id" />
+										</div>
+
+										<div class="col">
+											<label> Supplier Contact Number </label> <input type="number"
+												required="required" name="supplierContactNo"
+												th:field="*{supplierContactNo}"
+												class="form-control form-control-sm"
+												placeholder="Enter Contact Number" />
+										</div>
+
+
+										<div class="col">
+											<label> Supplier Website</label> <input type="text"
+												name="website" th:field="*{website}"
+												class="form-control form-control-sm"
+												placeholder="Enter Supplier Website url" />
+										</div>
+									</div>
+									<br>
+									<div class="form-row">
+
+										<div class="col">
+											<label> Twitter Id </label> <input type="text"
+												name="twitterId" th:field="*{twitterId}"
+												class="form-control form-control-sm"
+												placeholder="Enter Twitter Id" />
+										</div>
+
+
+										<div class="col">
+
+											<label> Instagram Id</label> <input type="text"
+												name="instagramId" th:field="*{instagramId}"
+												class="form-control form-control-sm"
+												placeholder="Enter Instagram Id" />
+										</div>
+
+										<div class="col">
+											<label> Facebook Id </label> <input type="text"
+												name="facebookId" th:field="*{facebookId}"
+												class="form-control form-control-sm"
+												placeholder="Enter Facebook Id" />
+										</div>
+
+									</div>
+
+
+								</div>
+								<h6>
+									<b>Bank Account Information</b>
+								</h6>
+								<div class="card-body">
+
+									<div class="form-row">
+
+										<div class="col">
+											<label> Bank Name</label> <input type="text" name="bankName"
+												th:field="*{bankName}" class="form-control form-control-sm"
+												placeholder="Enter Bank Name" />
+										</div>
+
+
+										<div class="col">
+											<label> IFSC Code</label> <input type="text"
+												name="bankIFSCCode" th:field="*{bankIFSCCode}"
+												class="form-control form-control-sm"
+												placeholder="Enter IFSC Code" />
+										</div>
+
+										<div class="col">
+											<label> AccountHolder Name</label> <input type="text"
+												name="accountHolderName" th:field="*{accountHolderName}"
+												class="form-control form-control-sm"
+												placeholder="Enter AccountHolder Name" />
+										</div>
+
+
+										<div class="col">
+											<label> Account Number </label> <input type="number"
+												name="accountNumber" th:field="*{accountNumber}"
+												class="form-control form-control-sm"
+												placeholder="Enter Account Number" />
+										</div>
+
+									</div>
+								</div>
+
+								<h6>
+									<b>Other Information</b>
+								</h6>
+								<div class="card-body">
+
+									<div class="form-row">
+
+										<div class="col">
+											<label>Source</label> <input type="text" name="source"
+												th:field="*{source}" class="form-control form-control-sm"
+												placeholder="Enter Source" />
+										</div>
+
+
+										<div class="col">
+											<label> Comments</label> <input type="text" name="comments"
+												th:field="*{comments}" class="form-control form-control-sm"
+												placeholder="Enter comments" />
+										</div>
+
+
+										<div class="col">
+											<label> Other Details</label> <input type="text"
+												name="otherDetails" th:field="*{otherDetails}"
+												class="form-control form-control-sm"
+												placeholder="Enter Any other details" />
+										</div>
+
+									</div>
+								</div>
+
+								<br>
+								<div class="box-footer" align="center">
+									<button type="submit" class="btn btn-primary">Save
+										Supplier Details</button>
+								</div>
+								<br>
+							</div>
+						</div>
+					</form>
+
+				</div>
+			</div>
+			<div class="tab-pane fade" id="product">
+				<br>
+				<h5>Product Details</h5>
+
+				<div class="container">
+
+
+					<div class="row">
+
+						<div class="container card">
+							<form th:action="@{/order/{id} (id=${order.id})}"
+								th:object="${order}" enctype="multipart/form-data" method="POST">
+
+
+								<div class="card-body">
+
+									<div class="form-row">
+
+
+
+
+										<div class="col">
+											<label> Order Id </label> <input type="text"
+												required="required" readonly="readonly" name="id"
+												th:field="*{id}" class="form-control form-control-sm"
+												placeholder="Order id" />
+										</div>
+										<div class="col">
+											<label> Product Number </label> <input type="text"
+												required="required" name="productNumber"
+												th:field="*{productNumber}"
+												class="form-control form-control-sm"
+												placeholder="Enter Product Number" />
+										</div>
+
+										<div class="col">
+											<label> Product Description </label> <input type="text"
+												required="required" name="productDescription"
+												th:field="*{productDescription}"
+												class="form-control form-control-sm"
+												placeholder="Enter Product Description" />
+										</div>
+
+
+										<div class="col">
+											<label> Product Quantity </label> <input type="number"
+												name="quantity" required="required" th:field="*{quantity}"
+												class="form-control form-control-sm"
+												placeholder="Enter Product Quantity" />
+										</div>
+									</div>
+									<br>
+									<div class="form-row">
+
+										<div class="col">
+											<label> Price </label> <input type="number" name="price"
+												required="required" th:field="*{price}"
+												class="form-control form-control-sm"
+												placeholder="Enter Product Price" />
+										</div>
+										<div class="col">
+											<label> Multiplier </label> <input type="number"
+												name="multiplier" th:field="*{multiplier}"
+												class="form-control form-control-sm"
+												placeholder="Enter Multiplier value" />
+										</div>
+
+										<div class="col">
+											<label> Shipping Cost </label> <input type="number"
+												name="shippingCost" th:field="*{shippingCost}"
+												class="form-control form-control-sm"
+												placeholder="Enter Shipping Cost" />
+										</div>
+
+
+										<div class="col">
+											<label> Total Cost </label> <input type="number"
+												required="required" name="totalCost" th:field="*{totalCost}"
+												class="form-control form-control-sm"
+												placeholder="Enter Total Cost" />
+										</div>
+
+									</div>
+									<br>
+									<div class="form-row">
+										<div class="col" hidden="true">
+											<label> Supplier Id</label> <input type="number"
+												required="required" name="supplierId"
+												th:field="*{supplierId}"
+												class="form-control form-control-sm"
+												placeholder="Enter Supplier Id" />
+										</div>
+
+										<div class="col" hidden="true">
+											<label> Supplier Name</label> <input type="text"
+												required="required" name="supplierName"
+												th:field="*{supplierName}"
+												class="form-control form-control-sm"
+												placeholder="Enter Supplier Name" />
+										</div>
+
+										<div class="col">
+											<label> Product Name </label> <input type="text"
+												required="required" name="productName"
+												th:field="*{productName}"
+												class="form-control form-control-sm"
+												placeholder="Enter Product Name" />
+										</div>
+
+
+										<div class="col">
+											<label> Product Image Name</label> <input type="text"
+												name="poImageName" th:field="*{poImageName}"
+												class="form-control form-control-sm"
+												placeholder="Enter Product Image" />
+										</div>
+									</div>
+									<br>
+									<div class="form-row">
+
+										<div class="col">
+											<label> Comments </label> <input type="text" name="comments"
+												th:field="*{comments}" class="form-control form-control-sm"
+												placeholder="Enter any additional comments" />
+										</div>
+										<div class="col">
+											<label> Other Details </label> <input type="text"
+												name="otherDetails" th:field="*{otherDetails}"
+												class="form-control form-control-sm"
+												placeholder="Enter any additional comments" />
+										</div>
+									</div>
+
+									<br>
+
+									<!-- <div class="form-row">
+
+										<div class="col">
+											<label> Product Image </label> &nbsp;&nbsp; <img
+												alt="Product Image" class="img-thumbnail"
+												th:src="@{'data:image/*;base64,' + ${order.poImageBase64}}"
+												width="100px" height="100px" />
+										</div>
+
+										<div class="col" hidden="true">
+											<label> Product Image Data </label> <input type="text"
+												required="required" name="poImageData"
+												th:field="*{poImageData}"
+												class="form-control form-control-sm" />
+										</div>
+
+										<div class="col">
+											<label> Upload New Product Image</label> <input type="file"
+												name="poOriginalImage" th:field="*{poOriginalImage}"
+												class="form-control form-control-sm"
+												placeholder="Enter Product Image" />
+										</div>
+									</div> -->
+									<br>
+
+									<!-- <div class="form-row">
+
+										<div class="col">
+											<label> Order Receipt </label> &nbsp;&nbsp; <img
+												alt="Order Receipt" class="img-thumbnail"
+												th:src="@{'data:image/*;base64,' + ${order.orderReceiptImageBase64}}"
+												width="100px" height="100px" />
+										</div>
+
+										<div class="col" hidden="true">
+											<label> Order Receipt Data</label> <input type="text"
+												required="required" name="orderReceiptImageData"
+												th:field="*{orderReceiptImageData}"
+												class="form-control form-control-sm" />
+										</div>
+
+										<div class="col">
+											<label> Upload New Order Receipt</label> <input type="file"
+												name="orderReceiptImage" th:field="*{orderReceiptImage}"
+												class="form-control form-control-sm"
+												placeholder="Enter Product Image" />
+										</div>
+									</div> -->
+
+								</div>
+								<br>
+								<div class="box-footer" align="center">
+									<button type="submit" class="btn btn-primary">Update
+										Order</button>
+								</div>
+
+								<br>
+							</form>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="tab-pane fade" id="productImages">
+				<br>
+				<h5>Product Image</h5>
+				<div class="container">
+
+					<table>
+
+						<tbody>
+							<tr>
+								<td><img alt="Product Image" class="img-thumbnail"
+									th:src="@{'data:image/*;base64,' + ${orderProductImageBase64}}"
+									width="500px" height="400px" />
+							</tr>
+						</tbody>
+
+					</table>
+
+				</div>
+			</div>
+
+			<div class="tab-pane fade" id="orderReceipts">
+				<br>
+				<h5>Order Receipt's</h5>
+				<div class="container">
+
+					<table>
+
+						<tbody>
+							<tr>
+								<td><img alt="Product Image" class="img-thumbnail"
+									th:src="@{'data:image/*;base64,' + ${orderReceiptImageBase64}}"
+									width="500px" height="400px" />
+							</tr>
+						</tbody>
+
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<div th:replace="fragment ::footer"></div>
+</body>
+</html>

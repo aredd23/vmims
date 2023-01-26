@@ -154,17 +154,17 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Order getOrderByProductName(String value) {
+	public List<Order> getOrderByProductName(String value) {
 		return orderRepository.findOrderByProductName(value);
 	}
 
 	@Override
-	public Order getOrderByGGCode(String value) {
+	public List<Order> getOrderByGGCode(String value) {
 		return orderRepository.findOrderByGGCode(value);
 	}
 
 	@Override
-	public Order getOrderByProductNumber(String valueOf) {
+	public List<Order> getOrderByProductNumber(String valueOf) {
 		return orderRepository.findOrderByProductNumber(valueOf);
 	}
 

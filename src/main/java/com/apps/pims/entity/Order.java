@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -53,9 +54,11 @@ public class Order{
 	private MultipartFile poOriginalImage;
 	
 	@Transient
+	@ToString.Exclude
 	private String poImageBase64;
 	
 	@Lob
+	@ToString.Exclude
 	private byte[] poImageData;
 	
 	private String poImageName;
@@ -64,9 +67,11 @@ public class Order{
 	private MultipartFile orderReceiptImage;
 	
 	@Transient
+	@ToString.Exclude
 	private String orderReceiptImageBase64;
 	
 	@Lob
+	@ToString.Exclude
 	private byte[] orderReceiptImageData;
 	
 	private String orderReceiptImageName;

@@ -2,6 +2,7 @@ package com.apps.pims.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import com.apps.pims.entity.Order;
 import com.apps.pims.entity.Supplier;
 import com.apps.pims.service.OrderService;
 import com.apps.pims.service.SupplierService;
+import com.apps.pims.util.ImageUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,67 +52,102 @@ public class SearchController {
 		List<Supplier> supplierList = new ArrayList<>();
 		List<Order> ordersList = new ArrayList<>();
 		Supplier supplier = null;
-		Order order = null;
-		
-		
-	
+
 		try {
 
-		if (searchData != null) {
+			if (searchData != null) {
 
-			if (searchData.getFieldName().equals("SupplierId")) {
-				log.info("field name: SupplierId");
-				supplier = supplierService.getSupplierById(Long.valueOf(searchData.getValue()));
-			}
+				if (searchData.getFieldName().equals("SupplierId")) {
+					log.info("field name: SupplierId");
+					supplier = supplierService.getSupplierById(Long.valueOf(searchData.getValue()));
+					if (supplier != null) {
+						supplierList.add(supplier);
+					}
+				}
 
-			if (searchData.getFieldName().equals("SupplierName")) {
-				log.info("field name: SupplierName");
-				supplierList = supplierService.getSupplierBySupplierName(searchData.getValue());
-				log.info("supplier: "+supplierList);
-			}
+				if (searchData.getFieldName().equals("SupplierName")) {
+					log.info("field name: SupplierName");
+					supplierList = supplierService.getSupplierBySupplierName(searchData.getValue());
+					log.info("supplier: " + supplierList);
+				}
 
-			if (searchData.getFieldName().equals("ProductNumber")) {
-				log.info("field name: ProductNumber");
-				order = orderService.getOrderByProductNumber(searchData.getValue());
-			}
+				if (searchData.getFieldName().equals("ProductNumber")) {
+					log.info("field name: ProductNumber");
+					ordersList = orderService.getOrderByProductNumber(searchData.getValue());
+				}
 
-			if (searchData.getFieldName().equals("ProductName")) {
-				log.info("field name: ProductName");
-				order = orderService.getOrderByProductName(searchData.getValue());
-			}
-			if (searchData.getFieldName().equals("GGCode")) {
-				log.info("field name: GGCode");
-				order = orderService.getOrderByGGCode(searchData.getValue());
-			}
+				if (searchData.getFieldName().equals("ProductName")) {
+					log.info("field name: ProductName");
+					ordersList = orderService.getOrderByProductName(searchData.getValue());
+				}
+				if (searchData.getFieldName().equals("GGCode")) {
+					log.info("field name: GGCode");
+					ordersList = orderService.getOrderByGGCode(searchData.getValue());
+				}
 
+			}
+		} catch (NumberFormatException e) {
+			log.info("NumberFormatException ..." + e.getMessage());
 		}
-		}catch (NumberFormatException e) {
-			log.info("NumberFormatException ..."+e.getMessage());
-		}
-		supplierList.add(supplier);
-		ordersList.add(order);
+
 		// log.info("supplier list: " + supplierList);
 
 		model.addAttribute("searchData", searchData);
+		
+		List<Order> resOrderList = new ArrayList<>();
+		if(!ordersList.isEmpty()) {
+			
+			for (Order order : ordersList) {
+				if (order.getPoImageData() != null) {
+					order.setPoImageBase64(
+							Base64.getEncoder().encodeToString(ImageUtils.decompressImage(order.getPoImageData())));
+				}
+				if (order.getOrderReceiptImageData() != null) {
+					order.setOrderReceiptImageBase64(Base64.getEncoder()
+							.encodeToString(ImageUtils.decompressImage(order.getOrderReceiptImageData())));
+				}
+				resOrderList.add(order);
+			}
+		}
 
 		model.addAttribute("suppliersList", supplierList);
-		model.addAttribute("ordersList", ordersList);
-		
-		log.info("suppliersList: "+supplierList.size());
-		log.info("ordersList: "+ordersList.size());
+		model.addAttribute("ordersList", resOrderList);
 
-		if (supplierList.isEmpty()) {
+		model.addAttribute("noData", null);
+
+		if (supplierList.isEmpty() && (searchData.getFieldName().equals("SupplierId")
+				|| searchData.getFieldName().equals("SupplierName"))) {
+			model.addAttribute("suppliersList", null);
+			model.addAttribute("ordersList", null);
+			model.addAttribute("noData", "no data found");
+		}
+
+		if (ordersList.isEmpty() && (searchData.getFieldName().equals("ProductNumber")
+				|| searchData.getFieldName().equals("ProductName") || searchData.getFieldName().equals("GGCode"))) {
+			model.addAttribute("ordersList", null);
+			model.addAttribute("suppliersList", null);
+			model.addAttribute("noData", "no data found");
+
+		}
+		
+		if (supplierList.isEmpty() && ordersList.isEmpty()) {
+			model.addAttribute("ordersList", null);
+			model.addAttribute("suppliersList", null);
+			model.addAttribute("noData", "no data found");
+		}
+		
+		if(!supplierList.isEmpty()) {
+			model.addAttribute("ordersList", null);
+		}
+		
+		if(!ordersList.isEmpty()) {
 			model.addAttribute("suppliersList", null);
 		}
 
-		if (ordersList.isEmpty()) {
-			model.addAttribute("ordersList", null);
 
-		}
-		
-		log.info("suppliersList: "+supplierList);
-		log.info("ordersList: "+ordersList);
-		
+		log.info("suppliersList size: " + supplierList.size());
+		log.info("ordersList size: " + ordersList.size());
+
 		return "searchList";
 	}
 

@@ -16,7 +16,12 @@
 label {
 	color: green;
 }
+select.form-control:not([size]):not([multiple]) {
+	height: calc(3rem + 2px);
+}
 </style>
+
+
 </head>
 <body>
 	<div th:replace="fragment ::header"></div>

@@ -24,18 +24,20 @@
 	<div th:replace="fragment ::header"></div>
 
 
-	
+
 	<div class="container">
 		<br>
 
-		<h4 align="center"> <font color="blue"> All Orders - List </font></h4>
+		<h4 align="center">
+			<font color="blue"> All Orders - List </font>
+		</h4>
 
 		<div class="row">
 			<div class="col-lg-3">
-				<a th:href="@{/order/new/{supplierId}(supplierId=${supplierId})}"
-					class="btn btn-primary btn-sm mb-3">Create Order</a>
-					
-	<!-- 				 <a
+				<!-- <a th:href="@{/order/new/{supplierId}(supplierId=${supplierId})}"
+					class="btn btn-primary btn-sm mb-3">Create Order</a> -->
+
+				<!-- 				 <a
 					th:href="@{/supplier/searchOrders}"
 					class="btn btn-primary btn-sm mb-3">Search Orders</a> -->
 			</div>
@@ -72,72 +74,87 @@
 					<td th:text="${order.productNumber}"></td>
 					<td th:text="${order.productName}"></td>
 					<td th:text="${order.GGCode}"></td>
-					
-					<td><a th:href="@{/order/product/image/preview/{id}(id=${order.id})}" target="_blank"> <img alt="Product Image" class="img-thumbnail"  
-						th:src="@{'data:image/*;base64,' + ${order.poImageBase64} }"
-						width="80px" height="60px" /></a>
-						
-						<a th:href="@{/order/product/image/download/{id}(id=${order.id})}">Download</a>
-						</td>
+
+					<td><a
+						th:href="@{/order/product/image/preview/{id}(id=${order.id})}"
+						target="_blank"> <img alt="Product Image"
+							class="img-thumbnail"
+							th:src="@{'data:image/*;base64,' + ${order.poImageBase64} }"
+							width="80px" height="60px" /></a> <a
+						th:href="@{/order/product/image/download/{id}(id=${order.id})}">Download</a>
+					</td>
 
 					<td th:text="${order.quantity}"></td>
 					<td th:text="${order.price}"></td>
 					<td th:text="${order.multiplier}"></td>
 					<td th:text="${order.totalCost}"></td>
-					
-					<td><a th:href="@{/order/receipt/image/preview/{id}(id=${order.id})}" th:target="_blank"> <img alt=" Order Receipt" class="img-thumbnail"
-						th:src="@{'data:image/*;base64,' + ${order.orderReceiptImageBase64}}"
-						width="80px" height="60px" /></a>
-						
-						<a th:href="@{/order/receipt/image/download/{id}(id=${order.id})}">Download</a>
-						</td>
 
-					<td><a th:href="@{/order/edit/{id}(id=${order.id})}"
+					<td><a
+						th:href="@{/order/receipt/image/preview/{id}(id=${order.id})}"
+						th:target="_blank"> <img alt=" Order Receipt"
+							class="img-thumbnail"
+							th:src="@{'data:image/*;base64,' + ${order.orderReceiptImageBase64}}"
+							width="80px" height="60px" /></a> <a
+						th:href="@{/order/receipt/image/download/{id}(id=${order.id})}">Download</a>
+					</td>
+
+			
+							
+					<td style="white-space: nowrap;"><a th:href="@{/order/edit/{id}(id=${order.id})}" title="View/Edit"
 						class="fa-regular fa-pen-to-square icon-dark"> </a> &nbsp;&nbsp;
 						&nbsp;
 						
-						 <a th:href="@{/order/delete/{id}(id=${order.id})}"
+						 <a th:href="@{/order/delete/{id}(id=${order.id})}" title="Delete"
 						class="fa-regular fa-trash-can icon-dark btn-delete"></a>
-						&nbsp;&nbsp; 
+						&nbsp;&nbsp;
 						
-						<!-- <a th:href="@{/order/createOrderAgain{id}(id=${order.id})}"
-						class="btn btn-danger">Order Again</a></td> -->
+						<a th:href="@{/order/quickView/{id}(id=${order.id})}" title="Quick View"
+						class="btn btn-default btn-sm"> <span
+							class="glyphicon glyphicon-eye-open"></span></a>
+							
+						 <!--  <a th:href="@{/order/createOrderAgain{id}(id=${order.id})}"
+						class="btn btn-danger">Order Again</a></td> --></td>
+
 				</tr>
 			</tbody>
 
 		</table>
 		<br>
 
-<div th:if="${totalPages > 1}"></div>
- <div class="row col-sm-10"> 
-  <div class="col-sm-1 page-item">
- <div class="col-sm-1 page-item">
-  <a th:if="${currentPage==1}" >Previous</a> &nbsp;&nbsp;
-  <a th:if="${currentPage!=1}" th:href="@{'/order/page/'+${currentPage - 1}}">Previous</a>
-  
-  </div>
-  
-  
-  </div>
-  
-  <div class="col-sm-1">
-  <span class="page-item" th:each="i: ${#numbers.sequence(1,totalPages)}">
-  <a th:if="${currentPage!=i}" th:href="@{'/order/page/'+${i}}">[[${i}]]</a>
-  <span th:unless="${currentPage!=i}">[[${i}]]</span>
-  </span>
-   
-  </div>
-  <div class="col-sm-1 page-item">
-  <a th:if="${currentPage < totalPages}" th:href="@{'/order/page/'+${currentPage + 1}}">Next</a>
-  <span class="page-item" th:unless="${currentPage < totalPages}">Next</span>
-  </div>
-  <div class="col-sm-1">
-  <a th:if="${currentPage < totalPages}" th:href="@{'/order/page/'+${totalPages}}">Last</a>
-  <span class="page-item" th:unless="${currentPage < totalPages}">Last</span>
-  </div>
- </div>
+		<div th:if="${totalPages > 1}"></div>
+		<div class="row col-sm-10">
+			<div class="col-sm-1 page-item">
+				<div class="col-sm-1 page-item">
+					<a th:if="${currentPage==1}">Previous</a> &nbsp;&nbsp; <a
+						th:if="${currentPage!=1}"
+						th:href="@{'/order/page/'+${currentPage - 1}}">Previous</a>
+
+				</div>
+
+
+			</div>
+
+			<div class="col-sm-1">
+				<span class="page-item"
+					th:each="i: ${#numbers.sequence(1,totalPages)}"> <a
+					th:if="${currentPage!=i}" th:href="@{'/order/page/'+${i}}">[[${i}]]</a>
+					<span th:unless="${currentPage!=i}">[[${i}]]</span>
+				</span>
+
+			</div>
+			<div class="col-sm-1 page-item">
+				<a th:if="${currentPage < totalPages}"
+					th:href="@{'/order/page/'+${currentPage + 1}}">Next</a> <span
+					class="page-item" th:unless="${currentPage < totalPages}">Next</span>
+			</div>
+			<div class="col-sm-1">
+				<a th:if="${currentPage < totalPages}"
+					th:href="@{'/order/page/'+${totalPages}}">Last</a> <span
+					class="page-item" th:unless="${currentPage < totalPages}">Last</span>
+			</div>
 		</div>
-		
-		<div th:replace="fragment ::footer"></div>
+	</div>
+
+	<div th:replace="fragment ::footer"></div>
 </body>
 </html>
