@@ -3,9 +3,10 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>SIMS</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+	integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -24,6 +25,7 @@
 label {
 	color: green;
 }
+
 select.form-control:not([size]):not([multiple]) {
 	height: calc(3rem + 2px);
 }
@@ -33,6 +35,7 @@ select.form-control:not([size]):not([multiple]) {
 	<div th:replace="fragment ::header"></div>
 
 	<br>
+	
 	<br>
 	<div class="container">
 		<h6 class="text-center">
@@ -53,8 +56,7 @@ select.form-control:not([size]):not([multiple]) {
 							<div class="col">
 								<label> Supplier Category: </label> <select required="required"
 									autofocus="autofocus" name="supplierCategory"
-									th:field="*{supplierCategory}"
-									class="form-control">
+									th:field="*{supplierCategory}" class="form-control">
 									<!-- <option value="-1" >Select</option> -->
 									<option value="Jewellery">Jewellery</option>
 									<option value="Clothing">Clothing</option>
@@ -64,8 +66,9 @@ select.form-control:not([size]):not([multiple]) {
 							</div>
 
 							<div class="col">
-								<label> Supplier Type: </label> <select name="supplierType"  required="required"
-									th:field="*{supplierType}" class="form-control">
+								<label> Supplier Type: </label> <select name="supplierType"
+									required="required" th:field="*{supplierType}"
+									class="form-control">
 									<!-- <option value="-1">Select</option> -->
 									<option value="Wholesalers">Wholesalers</option>
 									<option value="Manufacturers">Manufacturers</option>
@@ -81,6 +84,11 @@ select.form-control:not([size]):not([multiple]) {
 									th:field="*{supplierName}" class="form-control form-control-sm"
 									placeholder="Enter Supplier Name" />
 							</div>
+
+						</div>
+						<br>
+						<div class="form-row">
+
 							<div class="col">
 								<label> Reg. Fee: </label> &nbsp; &nbsp; <input type="text"
 									required="required" name="registrationFee"
@@ -88,9 +96,6 @@ select.form-control:not([size]):not([multiple]) {
 									class="form-control form-control-sm"
 									placeholder="Enter Registration Fee" />
 							</div>
-						</div>
-						<br>
-						<div class="form-row">
 							<div class="col">
 								<label> Balance Amount: </label> &nbsp; &nbsp; <input
 									type="text" required="required" name="balanceAmountWithVendor"
@@ -105,7 +110,9 @@ select.form-control:not([size]):not([multiple]) {
 									placeholder="Enter Supplier GST Number" />
 							</div>
 
-
+						</div>
+						<br>
+						<div class="form-row">
 							<div class="col">
 								<label> Supplier Address </label> <input type="text"
 									name="supplierAddress" th:field="*{supplierAddress}"

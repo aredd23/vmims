@@ -2,7 +2,6 @@ package com.apps.pims.entity;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,33 +34,28 @@ public class Order{
 	
 	private Long supplierId;
 	private String supplierName;
-	@Column(name = "product_name", nullable = false)
-	private String productName;
-	private String productCategory;
-	private double price;
+	
+	
+	//sum of all products qty which are there in a purchase order
 	private Integer quantity;
-	private String productNumber;
-	private String GGCode; 
-	private String productDescription;
 	private double shippingCost;
 	private double GSTCharges;
-	private double AddistionalCost; 
-	private double multiplier;
+	private double additionalCost; 
+	
+	private double shippingWeight;
+	private double shippingAmountPerKg;
 	private double totalCost;
 	private String otherDetails;
 	private String  comments;
-	@Transient
-	private MultipartFile poOriginalImage;
-	
-	@Transient
-	@ToString.Exclude
-	private String poImageBase64;
-	
-	@Lob
-	@ToString.Exclude
-	private byte[] poImageData;
-	
-	private String poImageName;
+	private String shippingAddress;
+	private String carrier;
+	private String shippedBy;
+	//@Temporal(TemporalType.DATE)
+	//@DateTimeFormat(pattern = "yyyy/MM/dd")
+	//private Date shippedDate;
+	private String shippedPersonEmail;
+	private String shippedPersonContactNo;
+
 	
 	@Transient
 	private MultipartFile orderReceiptImage;

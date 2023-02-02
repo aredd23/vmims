@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -20,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.apps.pims.dto.SearchOrder;
 import com.apps.pims.entity.Order;
+import com.apps.pims.entity.Products;
 import com.apps.pims.entity.Supplier;
 import com.apps.pims.service.OrderService;
+import com.apps.pims.service.ProductService;
 import com.apps.pims.service.SupplierService;
 import com.apps.pims.util.ImageUtils;
 
@@ -35,11 +38,14 @@ public class OrderController {
 	private OrderService orderService;
 
 	private SupplierService supplierService;
+	
+	private ProductService productService;
 
-	public OrderController(OrderService orderService, SupplierService supplierService) {
+	public OrderController(OrderService orderService, SupplierService supplierService,ProductService productService) {
 		super();
 		this.orderService = orderService;
 		this.supplierService = supplierService;
+		this.productService=productService;
 	}
 
 	// handler method to handle list Orders and return mode and view
@@ -53,6 +59,7 @@ public class OrderController {
 		if (ordr != null) {
 			orderList = ordr.getContent();
 			model.addAttribute("totalPages", ordr.getTotalPages());
+			//model.addAttribute("supplierName", orderList.get(0).getSupplierName());
 			model.addAttribute("totalRecords", ordr.getTotalElements());
 			model.addAttribute("currentPage", pageNo);
 			model.addAttribute("orders", orderList);
@@ -79,10 +86,7 @@ public class OrderController {
 			orderList = ordr.getContent();
 
 			for (Order order : orderList) {
-				if (order.getPoImageData() != null) {
-					order.setPoImageBase64(
-							Base64.getEncoder().encodeToString(ImageUtils.decompressImage(order.getPoImageData())));
-				}
+				
 				if (order.getOrderReceiptImageData() != null) {
 					order.setOrderReceiptImageBase64(Base64.getEncoder()
 							.encodeToString(ImageUtils.decompressImage(order.getOrderReceiptImageData())));
@@ -93,6 +97,7 @@ public class OrderController {
 				model.addAttribute("totalRecords", ordr.getTotalElements());
 				model.addAttribute("currentPage", pageNo);
 				model.addAttribute("orders", resOrderList);
+
 			}
 		} else {
 			model.addAttribute("totalPages", 0);
@@ -117,7 +122,62 @@ public class OrderController {
 		return "create_order";
 
 	}
+	
+	@GetMapping("/new/add/{supplierId}")
+	public String addOrderForm(@PathVariable Long supplierId, Model model) {
+		log.info("createOrderForm()...");
+		// create Order object to hold Order form data
+		Order order = new Order();
+		Supplier supplier = supplierService.getSupplierById(supplierId);
+		order.setSupplierId(supplier.getId());
+		order.setSupplierName(supplier.getSupplierName());
+		// log.info("supplier details:"+supplier);
+		model.addAttribute("order", order);
+		Products product=new Products();
+		model.addAttribute("product", product);
+		model.addAttribute("productsList", null);
+	
+		return "addPOTab";
 
+	}
+	
+	@GetMapping("/createPO")
+	public String createPO(Model model) {
+		log.info("createPO()...");
+		List<Supplier> supplierList = supplierService.findAllSuppliers();
+		model.addAttribute("suppliers", supplierList);
+		Supplier supplier=new Supplier();
+		model.addAttribute("supplier", supplier);
+		model.addAttribute("supplierList", supplierList);
+		return "createPOTab";
+	}
+
+	
+	@PostMapping("/createPO")
+	public String createPO(@ModelAttribute("supplier") Supplier supplier,Model model) throws IOException {
+		log.info("createPO-POST");
+		//order.setShippedDate(order.getShippedDate().toLocaleString());
+		List<Supplier> supplierList=supplierService.findSupplierBySupplierName(supplier.getSupplierName());
+		Supplier supplierDetails=null;
+		Order orderDetails=new Order();
+		if(!supplierList.isEmpty()) {
+			 supplierDetails=supplierList.get(0);
+			 log.info("supplier details: "+supplierDetails);
+		orderDetails.setSupplierId(supplierDetails.getId());
+		orderDetails.setSupplierName(supplierDetails.getSupplierName());
+		}
+		Products product=new Products();
+		model.addAttribute("product", product);
+		model.addAttribute("order", orderDetails);
+		model.addAttribute("supplier", supplierDetails);
+		model.addAttribute("productsList", null);
+		
+		List<Supplier> suppliers = supplierService.findAllSuppliers();
+		model.addAttribute("suppliers", suppliers);
+		model.addAttribute("supplierList", null);
+		return "createPOTab";
+	}
+	
 	@GetMapping("/{id}")
 	public String getOrders(@PathVariable Long id, Model model) throws IOException {
 		Order order = orderService.getOrderById(id);
@@ -142,29 +202,45 @@ public class OrderController {
 				.encodeToString(ImageUtils.decompressImage(order.getOrderReceiptImageData()));
 		model.addAttribute("orderReceiptImageBase64", orderReceiptImageBase64);
 		
-		String orderProductImageBase64 = Base64.getEncoder()
-				.encodeToString(ImageUtils.decompressImage(order.getPoImageData()));
-		model.addAttribute("orderProductImageBase64", orderProductImageBase64);
+		List<Products> productsNewList = new ArrayList<>();
+		List<Products> products = productService.getAllProductsByOrderId(order.getId());
+		Products productobj=new Products();
+		productobj.setOrderId(id);
+		model.addAttribute("product", productobj);
+		if (products != null) {
+			
+			for (Products product : products) {
+				if (product.getPoImageData() != null) {
+					product.setPoImageBase64(Base64.getEncoder().encodeToString(ImageUtils.decompressImage(product.getPoImageData())));
+				}
+				productsNewList.add(product);			
+			}
+			model.addAttribute("productsList", productsNewList);
+		} else {
 		
-		return "orderQuickView";
-
+			model.addAttribute("productsList", null);
+		}
+		return "viewPOTab";
 	}
 
 	@PostMapping("/createOrder")
-	public String saveOrder(@ModelAttribute("order") Order order) throws IOException {
-		orderService.saveOrder(order);
-		return "redirect:/order/ordersList";
+	public String saveOrder(@ModelAttribute("order") Order order,Model model) throws IOException {
+		//log.info("shipped date: "+order.getShippedDate());
+		//order.setShippedDate(order.getShippedDate().toLocaleString());
+		Order orderDetails=orderService.saveOrder(order);
+		Products product=new Products();
+		product.setOrderId(orderDetails.getId());
+		model.addAttribute("product", product);
+		model.addAttribute("orderId", orderDetails.getId());
+		model.addAttribute("productsList", null);
+		model.addAttribute("message", "Purchase Order created successfully. Please add the prodcuts now");
+		return "addPOTab";
 	}
 
 	@GetMapping("/edit/{id}")
 	public String editOrderForm(@PathVariable Long id, Model model) throws IOException {
 		Order order = orderService.getOrderById(id);
-		if (order.getPoImageData() != null) {
-			log.info("Product Image Name from db: " + order.getPoImageName());
-			// log.info("Product Image Data from db: " + order.getPoImageData());
-			order.setPoImageBase64(
-					Base64.getEncoder().encodeToString(ImageUtils.decompressImage(order.getPoImageData())));
-		}
+		
 		if (order.getOrderReceiptImageData() != null) {
 			// log.info("Order Receipt Data from db: " + order.getOrderReceiptImageData());
 			order.setOrderReceiptImageBase64(
@@ -242,19 +318,19 @@ public class OrderController {
 		return "productReceiptPreview";
 	}
 
-	@GetMapping("/product/image/download/{id}")
-	public void downloadOrderImage(@PathVariable Long id, Model model, HttpServletResponse response)
+	@GetMapping("/image/download/{id}")
+	public void downloadProductImage(@PathVariable Long id, Model model, HttpServletResponse response)
 			throws IOException {
-		Order order = orderService.getOrderById(id);
+		Optional<Products> product = productService.getProductById(id);
 		log.info("downloadOrderReceipt() ...order id: " + id);
-		if (order != null) {
+		if (product != null) {
 			response.setContentType("image/jpeg, image/jpg,,image/JPG,image/JPEG, image/png, image/gif, image/pdf");
 			String headerKey = "Content-Disposition";
-			String headerValue = "attachment; filename = " + order.getPoImageName();
+			String headerValue = "attachment; filename = " + product.get().getPoImageName();
 			response.setHeader(headerKey, headerValue);
 			ServletOutputStream outputStream = response.getOutputStream();
-			if (order.getPoImageData() != null) {
-				byte[] image = ImageUtils.decompressImage(order.getPoImageData());
+			if (product.get().getPoImageData() != null) {
+				byte[] image = ImageUtils.decompressImage(product.get().getPoImageData());
 				outputStream.write(image);
 
 			} else {
@@ -264,17 +340,6 @@ public class OrderController {
 		}
 	}
 
-	@GetMapping("product/image/preview/{id}")
-	public String showOrderImage(@PathVariable Long id, Model model) throws ServletException, IOException {
-		log.info("showOrderImage() ...order id: " + id);
-		Order order = orderService.getOrderById(id);
-
-		String orderProductImageBase64 = Base64.getEncoder()
-				.encodeToString(ImageUtils.decompressImage(order.getPoImageData()));
-		model.addAttribute("orderProductImageBase64", orderProductImageBase64);
-
-		return "productImagePreview";
-	}
 
 	@GetMapping("/page/{pageNo}")
 	public String display(@PathVariable(value = "pageNo") int pageNo, Model model) throws IOException {
@@ -290,5 +355,8 @@ public class OrderController {
 		return "ordersList";
 
 	}
+	
+	
+	
 
 }

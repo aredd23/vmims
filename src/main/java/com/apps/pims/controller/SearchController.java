@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.apps.pims.dto.SearchDto;
 import com.apps.pims.entity.Order;
+import com.apps.pims.entity.Products;
 import com.apps.pims.entity.Supplier;
 import com.apps.pims.service.OrderService;
+import com.apps.pims.service.ProductService;
 import com.apps.pims.service.SupplierService;
 import com.apps.pims.util.ImageUtils;
 
@@ -27,11 +29,14 @@ public class SearchController {
 	private OrderService orderService;
 
 	private SupplierService supplierService;
+	
+	private ProductService productService;
 
-	public SearchController(OrderService orderService, SupplierService supplierService) {
+	public SearchController(OrderService orderService, SupplierService supplierService,ProductService productService) {
 		super();
 		this.orderService = orderService;
 		this.supplierService = supplierService;
+		this.productService=productService;
 	}
 
 	@GetMapping("/search")
@@ -51,7 +56,10 @@ public class SearchController {
 
 		List<Supplier> supplierList = new ArrayList<>();
 		List<Order> ordersList = new ArrayList<>();
+		
+		List<Products> productsList = new ArrayList<>();
 		Supplier supplier = null;
+		Order order=null;
 
 		try {
 
@@ -71,18 +79,25 @@ public class SearchController {
 					log.info("supplier: " + supplierList);
 				}
 
+				if (searchData.getFieldName().equals("OrderId")) {
+					log.info("field name: OrderId");
+					order = orderService.getOrderById(Long.valueOf(searchData.getValue()));
+					if (order != null) {
+						ordersList.add(order);
+					}
+				}
 				if (searchData.getFieldName().equals("ProductNumber")) {
 					log.info("field name: ProductNumber");
-					ordersList = orderService.getOrderByProductNumber(searchData.getValue());
+					productsList = productService.getProductsByProductNumber(searchData.getValue());
 				}
 
 				if (searchData.getFieldName().equals("ProductName")) {
 					log.info("field name: ProductName");
-					ordersList = orderService.getOrderByProductName(searchData.getValue());
+					productsList = productService.getProductsByProductName(searchData.getValue());
 				}
 				if (searchData.getFieldName().equals("GGCode")) {
 					log.info("field name: GGCode");
-					ordersList = orderService.getOrderByGGCode(searchData.getValue());
+					productsList = productService.getProductsByGGCode(searchData.getValue());
 				}
 
 			}
@@ -97,21 +112,32 @@ public class SearchController {
 		List<Order> resOrderList = new ArrayList<>();
 		if(!ordersList.isEmpty()) {
 			
-			for (Order order : ordersList) {
-				if (order.getPoImageData() != null) {
-					order.setPoImageBase64(
-							Base64.getEncoder().encodeToString(ImageUtils.decompressImage(order.getPoImageData())));
+			for (Order order1 : ordersList) {
+			
+				if (order1.getOrderReceiptImageData() != null) {
+					order1.setOrderReceiptImageBase64(Base64.getEncoder()
+							.encodeToString(ImageUtils.decompressImage(order1.getOrderReceiptImageData())));
 				}
-				if (order.getOrderReceiptImageData() != null) {
-					order.setOrderReceiptImageBase64(Base64.getEncoder()
-							.encodeToString(ImageUtils.decompressImage(order.getOrderReceiptImageData())));
-				}
-				resOrderList.add(order);
+				resOrderList.add(order1);
 			}
 		}
+		
+		List<Products> productsNewList = new ArrayList<>();
+
+		if (productsList != null && !productsList.isEmpty()) {
+			
+			for (Products productO : productsList) {
+				if (productO.getPoImageData() != null) {
+					productO.setPoImageBase64(Base64.getEncoder().encodeToString(ImageUtils.decompressImage(productO.getPoImageData())));
+				}
+				productsNewList.add(productO);			
+			}
+			
+		} 
 
 		model.addAttribute("suppliersList", supplierList);
 		model.addAttribute("ordersList", resOrderList);
+		model.addAttribute("productsList", productsNewList);
 
 		model.addAttribute("noData", null);
 
@@ -119,34 +145,48 @@ public class SearchController {
 				|| searchData.getFieldName().equals("SupplierName"))) {
 			model.addAttribute("suppliersList", null);
 			model.addAttribute("ordersList", null);
+			model.addAttribute("productsList", null);
+			model.addAttribute("noData", "no data found");
+		}
+		
+		if (ordersList.isEmpty() && (searchData.getFieldName().equals("OrderId"))) {
+			model.addAttribute("suppliersList", null);
+			model.addAttribute("ordersList", null);
+			model.addAttribute("productsList", null);
 			model.addAttribute("noData", "no data found");
 		}
 
-		if (ordersList.isEmpty() && (searchData.getFieldName().equals("ProductNumber")
+		if (productsList.isEmpty() && (searchData.getFieldName().equals("ProductNumber")
 				|| searchData.getFieldName().equals("ProductName") || searchData.getFieldName().equals("GGCode"))) {
 			model.addAttribute("ordersList", null);
 			model.addAttribute("suppliersList", null);
+			model.addAttribute("productsList", null);
 			model.addAttribute("noData", "no data found");
 
 		}
 		
-		if (supplierList.isEmpty() && ordersList.isEmpty()) {
+		if (supplierList.isEmpty() && ordersList.isEmpty() && productsList.isEmpty()) {
 			model.addAttribute("ordersList", null);
 			model.addAttribute("suppliersList", null);
+			model.addAttribute("productsList", null);
 			model.addAttribute("noData", "no data found");
 		}
 		
-		if(!supplierList.isEmpty()) {
+		if(ordersList.isEmpty()) {
 			model.addAttribute("ordersList", null);
 		}
 		
-		if(!ordersList.isEmpty()) {
+		if(supplierList.isEmpty()) {
 			model.addAttribute("suppliersList", null);
 		}
 
+		if(productsList.isEmpty()) {
+			model.addAttribute("productsList", null);
+		}
 
 		log.info("suppliersList size: " + supplierList.size());
 		log.info("ordersList size: " + ordersList.size());
+		log.info("productsList size: " + productsList.size());
 
 		return "searchList";
 	}

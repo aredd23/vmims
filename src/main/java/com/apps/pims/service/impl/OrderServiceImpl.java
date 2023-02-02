@@ -37,10 +37,6 @@ public class OrderServiceImpl implements OrderService {
 		List<Order> ordersList = orderRepository.findAll();
 		List<Order> resOrderList = new ArrayList<>();
 		for (Order order : ordersList) {
-			if (order.getPoImageData() != null) {
-				order.setPoImageBase64(
-						Base64.getEncoder().encodeToString(ImageUtils.decompressImage(order.getPoImageData())));
-			}
 			if (order.getOrderReceiptImageData() != null) {
 				order.setOrderReceiptImageBase64(Base64.getEncoder()
 						.encodeToString(ImageUtils.decompressImage(order.getOrderReceiptImageData())));
@@ -54,13 +50,7 @@ public class OrderServiceImpl implements OrderService {
 	public Order saveOrder(Order order) throws IOException {
 		log.info("saveOrder()..");
 		order.setCreatedDate(new Date());
-		if (order.getPoOriginalImage() != null) {
-			order.setPoImageData(ImageUtils.compressImage(order.getPoOriginalImage().getBytes()));
-			order.setPoImageName(order.getPoOriginalImage().getOriginalFilename());
-		} else {
-			order.setPoImageData(null);
-			order.setPoImageName(null);
-		}
+
 		if (order.getOrderReceiptImage() != null) {
 			order.setOrderReceiptImageData(ImageUtils.compressImage(order.getOrderReceiptImage().getBytes()));
 			order.setOrderReceiptImageName(order.getOrderReceiptImage().getOriginalFilename());
@@ -77,10 +67,7 @@ public class OrderServiceImpl implements OrderService {
 
 		Order order = orderRepository.findById(id).get();
 
-		if (order.getPoImageData() != null) {
-			order.setPoImageBase64(
-					Base64.getEncoder().encodeToString(ImageUtils.decompressImage(order.getPoImageData())));
-		}
+
 		if (order.getOrderReceiptImageData() != null) {
 			order.setOrderReceiptImageBase64(
 					Base64.getEncoder().encodeToString(ImageUtils.decompressImage(order.getOrderReceiptImageData())));
@@ -100,31 +87,22 @@ public class OrderServiceImpl implements OrderService {
 
 		existingOrder.setId(order.getId());
 		existingOrder.setSupplierId(order.getSupplierId());
-		existingOrder.setProductDescription(order.getProductDescription());
-		existingOrder.setProductCategory(order.getProductCategory());
-		existingOrder.setProductDescription(order.getProductDescription());
-		existingOrder.setGGCode(order.getGGCode());
 		existingOrder.setUpdatedDate(new Date());
-		existingOrder.setAddistionalCost(order.getAddistionalCost());
+		existingOrder.setAdditionalCost(order.getAdditionalCost());
 		existingOrder.setGSTCharges(order.getGSTCharges());
-		existingOrder.setMultiplier(order.getMultiplier());
 		existingOrder.setShippingCost(order.getShippingCost());
-		existingOrder.setPrice(order.getPrice());
 		existingOrder.setQuantity(order.getQuantity());
 		existingOrder.setTotalCost(order.getTotalCost());
 		existingOrder.setComments(order.getComments());
 		existingOrder.setOtherDetails(order.getOtherDetails());
-
-		if (existingOrder.getPoOriginalImage() != null) {
-			log.info("existingOrder.getPoOriginalImage() != null");
-			// existingOrder.setPoImageName(order.getPoOriginalImage().getOriginalFilename());
-			// existingOrder.setPoImageData(ImageUtils.compressImage(order.getPoOriginalImage().getBytes()));
-		}
-		if (!order.getPoOriginalImage().isEmpty() && order.getPoOriginalImage() != null) {
-			log.info("order.getPoOriginalImage() != null");
-			existingOrder.setPoImageName(order.getPoOriginalImage().getOriginalFilename());
-			existingOrder.setPoImageData(ImageUtils.compressImage(order.getPoOriginalImage().getBytes()));
-		}
+		existingOrder.setCarrier(order.getCarrier());
+		existingOrder.setShippedBy(order.getShippedBy());
+		//existingOrder.setShippedDate(order.getShippedDate());
+		existingOrder.setShippingWeight(order.getShippingWeight());
+		existingOrder.setShippedPersonContactNo(order.getShippedPersonContactNo());
+		existingOrder.setShippingAddress(order.getShippingAddress());
+		existingOrder.setShippingAmountPerKg(existingOrder.getShippingAmountPerKg());
+		existingOrder.setShippedPersonEmail(order.getShippedPersonEmail());
 
 		if (existingOrder.getOrderReceiptImage() != null) {
 			log.info("existingOrder.getOrderReceiptImage() != null");
@@ -154,24 +132,18 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> getOrderByProductName(String value) {
-		return orderRepository.findOrderByProductName(value);
-	}
-
-	@Override
-	public List<Order> getOrderByGGCode(String value) {
-		return orderRepository.findOrderByGGCode(value);
-	}
-
-	@Override
-	public List<Order> getOrderByProductNumber(String valueOf) {
-		return orderRepository.findOrderByProductNumber(valueOf);
-	}
-
-	@Override
 	public Page<Order> getAllOrders(int pageNo, int pageSize) throws IOException {
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		return orderRepository.findAll(pageable);
 	}
+
+	@Override
+	public List<Order> getAllOrders() {
+		
+		return orderRepository.findAll();
+	}
+
+
+	
 
 }

@@ -21,53 +21,105 @@
 
 	<div th:replace="fragment ::header"></div>
 
-	
-	<!-- <div class="col-lg-3">
+<div class="container table-responsive">
+	<div class="container-fluid">
 
-
-		<form th:action="@{/suppliers/searchSuppliers}"
-			th:object="${searchSupplier}" method="POST">
-			 <input type="text" name="fieldName"
-				th:field="*{fieldName}" class="form-control" placeholder="Select" />
-				
-				 <input type="text" name="value"
-				th:field="*{value}" class="form-control" placeholder="Enter value" />
-			<div class="box-footer">
-				<button type="submit" class="btn btn-primary">Save</button>
-			</div>
-		</form>
-
-	</div> -->
-
-	<div class="container table-responsive">
-	<!-- <h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]] ..!</h3> -->
-	<br>
+		<br>
 		<p align="center">
 			<font color="green">Welcome to SIMS Application. A Suppliers /
 				Manufacturers Information Management System. </font> <br> <br>
-		<div>
+		<div class="row">
+			<div class="col-md bg-warning text-white ">
+				<div>
 
-			<h4 align="center">
-				<font color="blue">Suppliers Category List</font>
-			</h4>
-			<br>
+					<h4 align="center">
+						<font color="blue">Quick Links</font>
+					</h4>
+					<br>
+					<ul class="nav flex-column">
+						<li class="nav-item"><a class="nav-link"
+							th:href="@{/supplier/new}">Add Supplier</a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/order/createPO}">Create
+								a PO</a></li>
+						<li class="nav-item"><a class="nav-link " th:href="@{/search}">Search
+								Products</a></li>
 
+
+					</ul>
+
+				</div>
+
+			</div>
+			<div class="col-md bg-info ">
+
+				<h4 align="center">
+					<font color="blue">Quick Overview</font>
+				</h4>
+				<br>
+
+				<ul class="nav flex-column">
+					<li class="nav-item"><b>No. of Suppliers</b> :
+						[[${suppliersCount}]]</li>
+					<br>
+					<li class="nav-item"><b>No. of Purchase Orders</b> :
+						[[${poCount}]]</li>
+					<br>
+					<li class="nav-item"><b>No. of Products</b> :
+						[[${productsCount}]]</li>
+				</ul>
+
+
+				<br> <br>
+			</div>
+			<div class="col-md bg-warning text-white ">
+
+				<div>
+
+					<h4 align="center">
+						<font color="blue">Suppliers Categories</font>
+					</h4>
+					<br>
+
+				</div>
+				<table class="table table-bordered table-condensed table-hover">
+					<tbody>
+						<tr th:each="category: ${categoryList}">
+
+							<td align="center"><a
+								th:href="@{/supplier/category/{category}(category=${category})}"><u>
+										[[${category}]] </u></a></td>
+
+						</tr>
+					</tbody>
+
+				</table>
+				<br> <br>
+			</div>
+			<div class="col-md  bg-info">
+
+				<div>
+
+					<h4 align="center">
+						<font color="blue">Expenses Overview</font>
+					</h4>
+					<br>
+
+				</div>
+
+				<br> <br>
+			</div>
 		</div>
-		<table class="table table-bordered table-condensed table-hover">
-			<tbody>
-				<tr th:each="category: ${categoryList}">
-
-					<td align="center"><a
-						th:href="@{/supplier/category/{category}(category=${category})}"><u>
-								[[${category}]] </u></a></td>
-
-				</tr>
-			</tbody>
-
-		</table>
 	</div>
-	<br><br><br><br><br><br><br><br><br>
-
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+</div>
 	<div th:replace="fragment ::footer"></div>
 </body>
 </html>

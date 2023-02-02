@@ -27,12 +27,18 @@
 	<div class="container">
 		<br>
 
-		<h4 align="center">Orders List</h4>
+		<h4 align="center">
+			<font color="blue"> Purchase Orders - List </font>
+		</h4>
 
 		<div class="row">
 			<div class="col-lg-3">
-				<a th:href="@{/order/new/{supplierId}(supplierId=${supplierId})}"
-					class="btn btn-primary btn-sm mb-3">Create Order</a>
+				<!--  <a th:href="@{/order/new/{supplierId}(supplierId=${supplierId})}"
+					class="btn btn-primary btn-sm mb-3">Create Order</a>  -->
+
+
+			 <a th:href="@{/order/new/add/{supplierId}(supplierId=${supplierId})}"
+					class="btn btn-primary btn-sm mb-3">Create Order</a> 
 
 				<!-- 				 <a
 					th:href="@{/supplier/searchOrders}"
@@ -46,17 +52,13 @@
 					<th>Order Id</th>
 					<th>Splr.Id</th>
 					<th>Splr.Name</th>
-
-					<th>P.No.</th>
-					<th>P.Name</th>
-					<th>GGCode</th>
-					<th>Product</th>
-
+					<th>PO. Date</th>
 					<th>Qty.</th>
-					<th>Multiplier</th>
-					<th>Price</th>
+					<th>Carrier</th>
+					<th>Shipping Weight</th>
+					<th>Shipping Amount/kg</th>
 					<th>Total Cost</th>
-					<th>Receipt</th>
+					<th>PO. Receipt</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -66,24 +68,12 @@
 					<td scope="row" th:text="${orderStat.index+1}"></td>
 					<td th:text="${order.id}"></td>
 					<td th:text="${order.supplierId}"></td>
-					<td th:text="${order.supplierName}"></td>
-
-					<td th:text="${order.productNumber}"></td>
-					<td th:text="${order.productName}"></td>
-					<td th:text="${order.GGCode}"></td>
-
-					<td><a
-						th:href="@{/order/product/image/preview/{id}(id=${order.id})}"
-						target="_blank"> <img alt="Product Image"
-							class="img-thumbnail"
-							th:src="@{'data:image/*;base64,' + ${order.poImageBase64} }"
-							width="80px" height="60px" /></a> <a
-						th:href="@{/order/product/image/download/{id}(id=${order.id})}">Download</a>
-					</td>
-
+					<td th:text="${order.supplierName}" style="white-space: nowrap;"></td>
+					<td th:text="${order.createdDate}" style="white-space: nowrap;"></td>
 					<td th:text="${order.quantity}"></td>
-					<td th:text="${order.price}"></td>
-					<td th:text="${order.multiplier}"></td>
+					<td th:text="${order.carrier}"></td>
+					<td th:text="${order.shippingWeight}"></td>
+					<td th:text="${order.shippingAmountPerKg}"></td>
 					<td th:text="${order.totalCost}"></td>
 
 					<td><a
@@ -91,21 +81,34 @@
 						th:target="_blank"> <img alt=" Order Receipt"
 							class="img-thumbnail"
 							th:src="@{'data:image/*;base64,' + ${order.orderReceiptImageBase64}}"
-							width="80px" height="60px" /></a> <a
-						th:href="@{/order/receipt/image/download/{id}(id=${order.id})}">Download</a>
+							width="80px" height="40px" /></a> <p th:if="${order.orderReceiptImageBase64!= null}"><a 
+						th:href="@{/order/receipt/image/download/{id}(id=${order.id})}">Download</a></p>
+						
 					</td>
 
-					<td><a th:href="@{/order/edit/{id}(id=${order.id})}"
+			
+							
+					<td style="white-space: nowrap;">
+					
+					<!-- <a th:href="@{/order/edit/{id}(id=${order.id})}" title="View/Edit"
 						class="fa-regular fa-pen-to-square icon-dark"> </a> &nbsp;&nbsp;
-						&nbsp; <a th:href="@{/order/delete/{id}(id=${order.id})}"
+						&nbsp; -->
+						
+						 <a th:href="@{/order/delete/{id}(id=${order.id})}" title="Delete"
 						class="fa-regular fa-trash-can icon-dark btn-delete"></a>
-						&nbsp;&nbsp; <!-- <a th:href="@{/order/createOrderAgain{id}(id=${order.id})}"
-						class="btn btn-danger">Order Again</a></td> -->
+						&nbsp;&nbsp;
+						
+						<a th:href="@{/order/quickView/{id}(id=${order.id})}" title="Quick View"
+						class="btn btn-default btn-sm"> <span
+							class="glyphicon glyphicon-eye-open"></span></a>
+							
+						 <!--  <a th:href="@{/order/createOrderAgain{id}(id=${order.id})}"
+						class="btn btn-danger">Order Again</a></td> --></td>
+
 				</tr>
 			</tbody>
 
 		</table>
-
 		<br>
 
 		<div th:if="${totalPages > 1}"></div>

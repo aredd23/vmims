@@ -72,4 +72,10 @@ public class SupplierServiceImpl implements SupplierService{
 		return supplierRepository.findSupplierBySupplierCategory(category,pageable);
 	}
 
+	@Override
+	public List<Supplier> findSupplierBySupplierName(String supplierName) {
+		
+		return supplierRepository.findSupplierBySupplierName(supplierName);
+	}
+
 }

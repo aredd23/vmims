@@ -51,7 +51,7 @@ public class SupplierController {
 		model.addAttribute("totalPages", supp.getTotalPages());
 		model.addAttribute("totalRecords", supp.getTotalElements());
 
-		log.info("supplier list: " + supplierList);
+		//log.info("supplier list: " + supplierList);
 
 		model.addAttribute("suppliers", supplierList);
 		return "supplier";
@@ -68,7 +68,7 @@ public class SupplierController {
 		model.addAttribute("totalPages", supp.getTotalPages());
 		model.addAttribute("totalRecords", supp.getTotalElements());
 
-		log.info("supplier list: " + supplierList);
+		//log.info("supplier list: " + supplierList);
 
 		model.addAttribute("suppliers", supplierList);
 		return "suppliersList";
@@ -111,13 +111,26 @@ public class SupplierController {
 		SearchDto searchSupplier = new SearchDto();
 		model.addAttribute("searchSupplier", searchSupplier);
 		return "search_supplier";
-
 	}
 
 	@PostMapping()
-	public String saveSupplier(@ModelAttribute("supplier") Supplier supplier) throws IOException {
+	public String saveSupplier(@ModelAttribute("supplier") Supplier supplier,Model model) throws IOException {
 		supplierService.saveSupplier(supplier);
-		return "redirect:/supplier/suppliersList";
+		model.addAttribute("message", "Supplier Details added successfully.");
+		
+		int pageSize =10;
+		int pageNo=1;
+		Page<Supplier> supp=supplierService.getAllSuppliers(pageNo, pageSize);
+		List<Supplier> supplierList = supp.getContent();
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPages", supp.getTotalPages());
+		model.addAttribute("totalRecords", supp.getTotalElements());
+
+		//log.info("supplier list: " + supplierList);
+
+		model.addAttribute("suppliers", supplierList);
+		
+		return "suppliersList";
 	}
 
 	@GetMapping("/edit/{id}")
@@ -176,10 +189,7 @@ public class SupplierController {
 		
 		List<Order> resOrderList = new ArrayList<>();
 		for (Order order : orderList) {
-			
-			if (order.getPoImageData() != null) {
-				order.setPoImageBase64(Base64.getEncoder().encodeToString(ImageUtils.decompressImage(order.getPoImageData())));
-			}
+
 			if (order.getOrderReceiptImageData() != null) {
 				order.setOrderReceiptImageBase64(Base64.getEncoder().encodeToString(ImageUtils.decompressImage(order.getOrderReceiptImageData())));
 			}

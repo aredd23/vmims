@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>SIMS-Edit Product</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+	integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<style>
+label {
+	color: green;
+}
+
+select.form-control:not([size]):not([multiple]) {
+	height: calc(3rem + 2px);
+}
+</style>
+
+</head>
+<body>
+	<div th:replace="fragment ::header"></div>
+
+	<br>
+
+	<div class="container">
+
+
+		<h6 class="text-center">
+			<b><font color="blue">Edit Product</font></b>
+		</h6>
+		<div class="row">
+
+			<div class="container card">
+				<form
+					th:action="@{/products/updateProduct/{id} (id=${product.orderId})}"
+					th:object="${product}" enctype="multipart/form-data" method="POST">
+
+					<div class="card-body">
+						<div class="form-row">
+							<div class="card-body">
+								<div class="form-row">
+
+									<div class="col">
+										<label> Product Id </label> <input type="number"
+											readonly="readonly" name="id" th:field="*{id}"
+											class="form-control form-control-sm"
+											placeholder="Enter product id" />
+									</div>
+
+									<div class="col">
+										<label> Order Id </label> <input type="number"
+											readonly="readonly" name="orderId" th:field="*{orderId}"
+											class="form-control form-control-sm"
+											placeholder="Enter order id" />
+									</div>
+
+									<div class="col">
+										<label> Product Name </label> <input type="text"
+											required="required" name="productName"
+											th:field="*{productName}"
+											class="form-control form-control-sm"
+											placeholder="Enter Product Name" />
+									</div>
+									<div class="col">
+										<label> Product Number </label> <input type="text"
+											required="required" name="productNumber"
+											th:field="*{productNumber}"
+											class="form-control form-control-sm"
+											placeholder="Enter Product Number" />
+									</div>
+
+								</div>
+								<br>
+								<div class="form-row">
+
+									<div class="col">
+										<label> GG Code</label> <input type="text" required="required"
+											name="GGCode" th:field="*{GGCode}"
+											class="form-control form-control-sm"
+											placeholder="Enter GG Code" />
+									</div>
+									<div class="col">
+										<label> Product Description </label> <input type="text"
+											required="required" name="productDescription"
+											th:field="*{productDescription}"
+											class="form-control form-control-sm"
+											placeholder="Enter Product Description" />
+									</div>
+
+
+									<div class="col">
+										<label> Price </label> <input type="number" name="price"
+											required="required" th:field="*{price}"
+											class="form-control form-control-sm"
+											placeholder="Enter Product Price" />
+									</div>
+									<div class="col">
+										<label> Product Quantity </label> <input type="number"
+											name="quantity" required="required" th:field="*{quantity}"
+											class="form-control form-control-sm"
+											placeholder="Enter Product Quantity" />
+									</div>
+
+
+
+
+								</div>
+								<br>
+
+
+								<div class="form-row">
+
+									<!-- <div class="col">
+										<label> Balance Quantity </label> <input type="number"
+											name="balanceQty" required="required"
+											th:field="*{balanceQty}" class="form-control form-control-sm"
+											placeholder="Enter Balance Quantity" />
+									</div> -->
+
+
+									<div class="col">
+										<label> Sold Quantity </label> <input type="number"
+											name="soldQty" required="required" th:field="*{soldQty}"
+											class="form-control form-control-sm"
+											placeholder="Enter Sold Quantity" />
+									</div>
+
+
+
+									<div class="col">
+										<label> Multiplier </label> <input type="number"
+											name="multiplier" th:field="*{multiplier}"
+											class="form-control form-control-sm"
+											placeholder="Enter Multiplier value" />
+									</div>
+
+									<div class="col">
+										<label> Total Cost </label> <input type="number"
+											required="required" name="totalCost" th:field="*{totalCost}"
+											class="form-control form-control-sm"
+											placeholder="Enter Total Cost" />
+									</div>
+
+									<div class="col">
+										<label> Other Details </label> <input type="text"
+											name="otherDetails" th:field="*{otherDetails}"
+											class="form-control form-control-sm"
+											placeholder="Enter any additional comments" />
+									</div>
+
+
+
+								</div>
+								<br>
+
+
+								<div class="form-row">
+
+									<div class="col">
+										<label> Comments </label> <input type="text" name="comments"
+											th:field="*{comments}" class="form-control form-control-sm"
+											placeholder="Enter any additional comments" />
+									</div>
+
+									<div class="col">
+										<label> Product Image </label> &nbsp;&nbsp; <img
+											alt="Product Image" class="img-thumbnail"
+											th:src="@{'data:image/*;base64,' + ${product.poImageBase64}}"
+											width="100px" height="100px" />
+									</div>
+
+									<div class="col" hidden="true">
+										<label> Product Image Data</label> <input type="text"
+											name="poImageData" th:field="*{poImageData}"
+											class="form-control form-control-sm" />
+									</div>
+
+									<div class="col">
+										<label>Upload Product Image</label> <input type="file"
+											name="poOriginalImage" th:field="*{poOriginalImage}"
+											class="form-control form-control-sm"
+											placeholder="Enter Product Image" />
+									</div>
+
+
+								</div>
+
+							</div>
+
+						</div>
+						<br>
+						<div class="box-footer" align="center">
+							<button type="submit" class="btn btn-primary">Update
+								Product</button>
+						</div>
+
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div th:replace="fragment ::footer"></div>
+</body>
+</html>

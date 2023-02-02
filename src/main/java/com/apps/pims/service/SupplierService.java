@@ -24,4 +24,6 @@ public interface SupplierService {
 	List<Supplier> findAllSuppliers();
 
 	Page<Supplier> findSupplierBySupplierCategory(String category, int pageSize,int pageNo);
+
+	List<Supplier> findSupplierBySupplierName(String supplierName);
 }

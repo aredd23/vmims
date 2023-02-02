@@ -16,11 +16,20 @@
 label {
 	color: green;
 }
+
 select.form-control:not([size]):not([multiple]) {
 	height: calc(3rem + 2px);
 }
 </style>
-
+<script>
+	function myFunction() {
+		window
+				.open(
+						"/smims/order/new/products",
+						"_blank",
+						"toolbar=yes,scrollbars=yes,resizable=yes,top=100,left=50,width=1000,height=500");
+	}
+</script>
 
 </head>
 <body>
@@ -54,55 +63,69 @@ select.form-control:not([size]):not([multiple]) {
 									th:field="*{supplierName}" class="form-control form-control-sm"
 									placeholder="Enter Supplier Name" />
 							</div>
-							<div class="col">
-								<label> Product Name </label> <input type="text"
-									required="required" name="productName"
-									th:field="*{productName}" class="form-control form-control-sm"
-									placeholder="Enter Product Name" />
-							</div>
-							<div class="col">
-								<label> Product Number </label> <input type="text"
-									required="required" name="productNumber"
-									th:field="*{productNumber}"
-									class="form-control form-control-sm"
-									placeholder="Enter Product Number" />
-							</div>
-						</div>
-						<br>
-						<div class="form-row">
 
 							<div class="col">
-								<label> Product Description </label> <input type="text"
-									required="required" name="productDescription"
-									th:field="*{productDescription}"
-									class="form-control form-control-sm"
-									placeholder="Enter Product Description" />
-							</div>
-
-							<div class="col">
-								<label> Price </label> <input type="number" name="price"
-									required="required" th:field="*{price}"
-									class="form-control form-control-sm"
-									placeholder="Enter Product Price" />
-							</div>
-
-							<div class="col">
-								<label> Product Quantity </label> <input type="number"
+								<label> No of Items </label> <input type="number"
 									name="quantity" required="required" th:field="*{quantity}"
 									class="form-control form-control-sm"
 									placeholder="Enter Product Quantity" />
 							</div>
 							<div class="col">
-								<label> Multiplier </label> <input type="number"
-									name="multiplier" th:field="*{multiplier}"
+								<label> Shipping Weight </label> <input type="number"
+									name="shippingWeight" required="required"
+									th:field="*{shippingWeight}"
 									class="form-control form-control-sm"
-									placeholder="Enter Multiplier value" />
+									placeholder="Enter Shipping Weight" />
 							</div>
+
 						</div>
 						<br>
 
-
 						<div class="form-row">
+
+							<div class="col">
+								<label> Shipping Address</label> <input type="text"
+									name="shippingAddress" th:field="*{shippingAddress}"
+									class="form-control form-control-sm"
+									placeholder="Enter shippingAddress" />
+							</div>
+
+							<div class="col">
+								<label> Carrier</label> <input type="text" name="carrier"
+									th:field="*{carrier}" class="form-control form-control-sm"
+									placeholder="Enter carrier" />
+							</div>
+
+							<div class="col">
+								<label> Shipped By </label> <input type="text" name="shippedBy"
+									th:field="*{shippedBy}" class="form-control form-control-sm"
+									placeholder="Enter Shipped Person name" />
+							</div>
+							<!-- <div class="col">
+								<label> Shipped Date </label> <input type="date"
+									name="shippedDate" th:field="*{shippedDate}"
+									class="form-control form-control-sm"
+									placeholder="Enter shipped date" />
+							</div> -->
+
+							<div class="col">
+								<label> Shipping Amount /Kg </label> <input type="number"
+									name="multiplier" th:field="*{shippingAmountPerKg}"
+									class="form-control form-control-sm"
+									placeholder="Enter Shipping Amount" />
+							</div>
+						</div>
+						<br>
+						<div class="form-row">
+
+
+
+							<div class="col">
+								<label> GSTCharges </label> <input type="number"
+									name="GSTCharges" th:field="*{GSTCharges}"
+									class="form-control form-control-sm"
+									placeholder="Enter GSTCharges" />
+							</div>
 
 							<div class="col">
 								<label> Shipping Cost </label> <input type="number"
@@ -110,11 +133,39 @@ select.form-control:not([size]):not([multiple]) {
 									class="form-control form-control-sm"
 									placeholder="Enter Shipping Cost" />
 							</div>
+
+
+							<div class="col">
+								<label> Additional Cost</label> <input type="number"
+									name="additionalCost" th:field="*{additionalCost}"
+									class="form-control form-control-sm"
+									placeholder="Enter Additional Cost" />
+							</div>
+
 							<div class="col">
 								<label> Total Cost </label> <input type="number"
-									required="required" name="totalCost" th:field="*{totalCost}"
+									name="totalCost" th:field="*{totalCost}" required="required"
 									class="form-control form-control-sm"
 									placeholder="Enter Total Cost" />
+							</div>
+						</div>
+						<br>
+						<div class="form-row">
+
+
+
+							<div class="col">
+								<label> Shipped Person Email </label> <input type="text"
+									name="shippedPersonEmail" th:field="*{shippedPersonEmail}"
+									class="form-control form-control-sm" placeholder="Enter email " />
+							</div>
+
+							<div class="col">
+								<label> Shipped Person ContactNo </label> <input type="text"
+									name="shippedPersonContactNo"
+									th:field="*{shippedPersonContactNo}"
+									class="form-control form-control-sm"
+									placeholder="Enter contact number" />
 							</div>
 
 							<div class="col">
@@ -124,41 +175,38 @@ select.form-control:not([size]):not([multiple]) {
 									placeholder="Enter any additional comments" />
 							</div>
 
+
 							<div class="col">
 								<label> Comments </label> <input type="text" name="comments"
 									th:field="*{comments}" class="form-control form-control-sm"
 									placeholder="Enter any additional comments" />
 							</div>
 
-
 						</div>
 						<br>
-
 						<div class="form-row">
-							<div class="col">
-								<label>Upload Product Image</label> <input type="file"
-									name="poOriginalImage"
-									th:field="*{poOriginalImage}"
-									class="form-control form-control-sm"
-									placeholder="Enter Product Image" />
-							</div>
+
 
 							<div class="col">
 								<label> Upload Order Receipt</label> <input type="file"
-									 name="orderReceiptImage"
-									th:field="*{orderReceiptImage}"
+									name="orderReceiptImage" th:field="*{orderReceiptImage}"
 									class="form-control form-control-sm"
 									placeholder="Enter Product Image" />
 							</div>
 
 
 						</div>
-
 					</div>
-					<br>
+					<!--  <a class="nav-link active" th:href="@{/order/new/products}" onclick="myFunction()"
+						target="_blank">Add Products</a> 
+					
+					<button onclick="myFunction()" class="nav-link active">Add Products</button> -->
+
+					<br> <br>
+
 					<div class="box-footer" align="center">
-						<button type="submit" class="btn btn-primary">Create
-							Order</button>
+						<button type="submit" class="btn btn-primary">Next: Add
+							Products</button>
 					</div>
 
 					<br> <br>
@@ -166,6 +214,6 @@ select.form-control:not([size]):not([multiple]) {
 			</div>
 		</div>
 	</div>
-		<div th:replace="fragment ::footer"></div>
+	<div th:replace="fragment ::footer"></div>
 </body>
 </html>
